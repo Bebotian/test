@@ -1,108 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bebotian.net — Home</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Bebotian</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
+
 <body>
 
-<header>
-  <a href="index.html" class="logo"><span class="logo-dot"></span>BEBOTIAN.NET</a>
+<header class="topbar">
+  <a href="index.html" class="logo">BEBOTIAN.NET</a>
+
   <nav class="pages">
     <a href="index.html" class="active">Home</a>
     <a href="mods.html">Mods</a>
     <a href="projects.html">Projects</a>
-    <a href="changelog.html">Changelog</a>
-    <a href="about.html">About</a>
   </nav>
+
   <div class="socials">
-    <a class="social-btn" href="https://www.youtube.com/@Bebotian" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg>
-    </a>
-    <a class="social-btn" href="https://discord.gg/Nxk4wjnvHS" target="_blank" rel="noopener" aria-label="Discord" title="Discord">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.7 19.7 0 0 0 15.6 3c-.2.4-.5.9-.6 1.3a18 18 0 0 0-5.9 0A9 9 0 0 0 8.4 3a19.7 19.7 0 0 0-4.7 1.5C1 8.9.3 13.3.6 17.6a19.9 19.9 0 0 0 5.9 3c.5-.6.9-1.3 1.2-2a13 13 0 0 1-1.9-.9l.5-.4a14 14 0 0 0 11.4 0l.5.4c-.6.3-1.2.6-1.9.9.3.7.7 1.4 1.2 2a19.8 19.8 0 0 0 5.9-3c.4-5-.9-9.3-3.1-13.2ZM8.8 15c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.9 2.2-1.9 2.2Zm6.4 0c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Z"/></svg>
-    </a>
-    <a class="social-btn" href="https://bsky.app/profile/bebotian.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky" title="Bluesky">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8C10.6 8.2 7.3 3.6 4.4 1.6 1.7-.2.7.9.3 1.7c-1 2.2-.3 8.3.1 9.5.5 1.6 2.2 2.1 3.8 1.9-2.7.4-5.1 1.5-2 5 3.6 4 5-.8 6.2-2.9.2-.4.4-.7.6-1 .2.3.4.6.6 1 1.2 2.1 2.6 6.9 6.2 2.9 3.1-3.5.7-4.6-2-5 1.6.2 3.3-.3 3.8-1.9.4-1.2 1.1-7.3.1-9.5C21.3.9 20.3-.2 17.6 1.6c-2.9 2-6.2 6.6-7.6 9.2Z"/></svg>
-    </a>
+    <a href="#">GH</a>
+    <a href="#">YT</a>
+    <a href="#">DC</a>
   </div>
 </header>
 
-<section class="hero">
-  <h1>BEBOTIAN.NET</h1>
-  <p>Minecraft and Geometry Dash mods, tweaks, and other things I've taken apart and put back together better. Everything I make ends up here.</p>
-  <div class="hero-actions">
-    <a href="#mods" class="btn btn-primary">Browse mods</a>
-    <a href="https://www.youtube.com/@Bebotian" target="_blank" rel="noopener" class="btn btn-ghost">Watch on YouTube</a>
-  </div>
-</section>
+<main>
 
-<section class="section" id="mods">
-  <div class="section-head">
-    <div>
-      <div class="eyebrow">// mod library</div>
-      <h2>Latest mods</h2>
-    </div>
-    <div class="status-note"><span class="status-dot"></span>First mods dropping soon</div>
-  </div>
+  <h1>Latest Mods</h1>
+  <div id="latest-mods" class="mods-grid"></div>
 
-  <div class="grid">
-
-    <div class="card">
-      <div class="card-thumb">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3 20 7.5v9L12 21 4 16.5v-9L12 3Z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>
-      </div>
-      <div class="card-body">
-        <div class="card-tags">
-          <span class="tag mc">Minecraft</span>
-          <span class="tag loader">NeoForge</span>
-          <span class="tag mcver">26.1.2</span>
-        </div>
-        <h3>Wildreach</h3>
-        <p>Wildreach expands your world with new biomes, unique biomes, and scattered structures to discover, bringing fresh life and exploration to every journey.</p>
-        <button class="card-dl" disabled>Coming soon</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-thumb">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4 3 20h18L12 4Z"/></svg>
-      </div>
-      <div class="card-body">
-        <div class="card-tags">
-          <span class="tag gd">Geometry Dash</span>
-        </div>
-        <h3>GDmenu</h3>
-        <p>A short description of what GDmenu does will go here once it's ready to share.</p>
-        <button class="card-dl" disabled>Coming soon</button>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<footer>
-  <div>© <span id="year"></span> Bebotian. All mods are made for fun, not profit.</div>
-  <div class="socials">
-    <a class="social-btn" href="https://www.youtube.com/@Bebotian" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg>
-    </a>
-    <a class="social-btn" href="https://discord.gg/Nxk4wjnvHS" target="_blank" rel="noopener" aria-label="Discord" title="Discord">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.4A19.7 19.7 0 0 0 15.6 3c-.2.4-.5.9-.6 1.3a18 18 0 0 0-5.9 0A9 9 0 0 0 8.4 3a19.7 19.7 0 0 0-4.7 1.5C1 8.9.3 13.3.6 17.6a19.9 19.9 0 0 0 5.9 3c.5-.6.9-1.3 1.2-2a13 13 0 0 1-1.9-.9l.5-.4a14 14 0 0 0 11.4 0l.5.4c-.6.3-1.2.6-1.9.9.3.7.7 1.4 1.2 2a19.8 19.8 0 0 0 5.9-3c.4-5-.9-9.3-3.1-13.2ZM8.8 15c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.9 2.2-1.9 2.2Zm6.4 0c-1 0-1.9-1-1.9-2.2s.8-2.2 1.9-2.2 1.9 1 1.9 2.2-.8 2.2-1.9 2.2Z"/></svg>
-    </a>
-    <a class="social-btn" href="https://bsky.app/profile/bebotian.bsky.social" target="_blank" rel="noopener" aria-label="Bluesky" title="Bluesky">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8C10.6 8.2 7.3 3.6 4.4 1.6 1.7-.2.7.9.3 1.7c-1 2.2-.3 8.3.1 9.5.5 1.6 2.2 2.1 3.8 1.9-2.7.4-5.1 1.5-2 5 3.6 4 5-.8 6.2-2.9.2-.4.4-.7.6-1 .2.3.4.6.6 1 1.2 2.1 2.6 6.9 6.2 2.9 3.1-3.5.7-4.6-2-5 1.6.2 3.3-.3 3.8-1.9.4-1.2 1.1-7.3.1-9.5C21.3.9 20.3-.2 17.6 1.6c-2.9 2-6.2 6.6-7.6 9.2Z"/></svg>
-    </a>
-  </div>
-</footer>
+</main>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+const supabase = window.supabase.createClient(
+  "YOUR_URL",
+  "YOUR_KEY"
+);
+
+async function loadLatestMods() {
+  const { data } = await supabase
+    .from("mods")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(6);
+
+  const container = document.getElementById("latest-mods");
+  container.innerHTML = "";
+
+  data.forEach(mod => {
+    container.innerHTML += `
+      <div class="mod-card">
+        <img src="${mod.image}">
+        <h3>${mod.name}</h3>
+        <p>${mod.description}</p>
+      </div>
+    `;
+  });
+}
+
+loadLatestMods();
 </script>
 
 </body>
