@@ -13,7 +13,7 @@ const SUPABASE_ANON_KEY = "YOUR-ANON-PUBLIC-KEY";
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabase = createClient(https://xyxyjkngfkuaqxzpbyme.supabase.co/rest/v1/, eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5eHlqa25nZmt1YXF4enBieW1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2MDgyMzgsImV4cCI6MjA5OTE4NDIzOH0.jCvs1w9IDp8cRppddVj1Jun2_vS57jayGsClb8aDTGo);
 
 // ---------- icons (matched to the existing hand-drawn SVGs) ----------
 const ICONS = {
