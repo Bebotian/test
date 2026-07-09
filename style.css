@@ -610,3 +610,36 @@ footer .socials .social-btn svg{ width:14px; height:14px; }
 .list .card-body{
   flex:1;
 }
+
+/* TOP BAR LAYOUT */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}
+
+/* CENTER THE NAV */
+.pages{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:24px;
+}
+
+/* RIGHT SIDE SOCIALS */
+.socials{
+  display:flex;
+  gap:12px;
+}
+
+.socials a{
+  font-size:0.8rem;
+  opacity:0.7;
+  text-decoration:none;
+}
+
+.socials a:hover{
+  opacity:1;
+}
