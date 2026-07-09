@@ -565,3 +565,48 @@ footer .socials .social-btn svg{ width:14px; height:14px; }
   *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; }
   html{ scroll-behavior:auto; }
 }
+
+/* FILTER BAR */
+.filters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:30px;
+  align-items:center;
+}
+
+.filters select{
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:10px 12px;
+  border-radius:6px;
+  font-size:0.85rem;
+}
+
+.view-toggle{
+  margin-left:auto;
+  display:flex;
+  gap:8px;
+}
+
+/* LIST VIEW */
+.list{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.list .card{
+  display:flex;
+  flex-direction:row;
+}
+
+.list .card-thumb{
+  width:220px;
+  flex-shrink:0;
+}
+
+.list .card-body{
+  flex:1;
+}
