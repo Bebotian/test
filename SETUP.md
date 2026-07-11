@@ -1,79 +1,38 @@
-# Hooking the site up to Supabase
 
-## 1. Create a Supabase project
-Go to [supabase.com](https://supabase.com), create a project, then open
-**Project Settings → API** and copy:
-- **Project URL**
-- **anon public** key
+## 6. Account system (username + password)
 
-## 2. Add your credentials
-Open `js/supabase-mods.js` and fill in the top two constants:
+The site now has a simple account system, layered on top of Supabase's
+built-in Auth (so passwords are hashed/handled by Supabase, not homemade).
 
-```js
-const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR-ANON-PUBLIC-KEY";
-```
+### One-time Supabase dashboard setting
+Supabase Auth is email-based internally, so each username is mapped to a
+fake address behind the scenes (e.g. `steve` → `steve@users.bebotian.local`).
+Because there's no real inbox behind it, you must turn off email
+confirmation or nobody will be able to finish signing up:
 
-The anon key is safe to expose in client-side code — it only allows what
-your Row Level Security policies permit (see below).
+**Authentication → Providers → Email → turn OFF "Confirm email"**
 
-## 3. Create the `mods` table
-In the Supabase dashboard, open the **SQL Editor** and run:
+### Credentials moved
+Your Supabase URL/anon key now live in **`js/supabase-client.js`** instead
+of `js/supabase-mods.js`. If you'd already filled in your real project URL
+and key in the old file, copy those same two values into
+`js/supabase-client.js` — I couldn't see what you'd entered from my end, so
+this file ships with the placeholder values and needs your real ones pasted
+back in.
 
-```sql
-create table mods (
-  id uuid primary key default gen_random_uuid(),
-  name text not null,
-  description text,
-  game text not null check (game in ('minecraft', 'gd')),
-  loader text check (loader in ('neoforge', 'forge', 'fabric', 'quilt')),
-  mc_version text,
-  status text not null default 'indev'
-    check (status in ('released', 'beta', 'alpha', 'indev')),
-  download_url text,
-  sort_order int default 0,
-  created_at timestamptz default now()
-);
+### What's included
+- `account.html` — combined log in / sign up form (username + password only)
+- Every page's header now has an account widget:
+  - Logged out → "Log in" / "Sign up" buttons
+  - Logged in → a circular gray avatar with the first letter of the
+    username rendered in the site's rainbow gradient; click it for a
+    dropdown with the username and a "Log out" button
+- `js/auth.js` — signUp / signIn / signOut / getCurrentUser helpers
+- `js/auth-widget.js` — renders the header widget on every page
 
--- Allow anyone to read mods (this is public site content)
-alter table mods enable row level security;
-
-create policy "Public read access"
-  on mods for select
-  using (true);
-```
-
-By default there's no insert/update/delete policy, so the public anon key
-can only *read* rows — you add/edit mods from the Supabase dashboard (or
-your own authenticated tooling), and the site just displays them.
-
-## 4. Seed it with your current mods
-
-```sql
-insert into mods (name, description, game, loader, mc_version, status, sort_order)
-values
-  ('Wildreach',
-   'Wildreach expands your world with new biomes, unique biomes, and scattered structures to discover, bringing fresh life and exploration to every journey.',
-   'minecraft', 'neoforge', '26.1.2', 'indev', 1),
-  ('GDmenu',
-   'A short description of what GDmenu does will go here once it''s ready to share.',
-   'gd', null, null, 'indev', 2);
-```
-
-## 5. That's it
-- `index.html` shows the 2 most recent mods (by `sort_order`) with a
-  download button (enabled automatically once `status = 'released'` and
-  `download_url` is set).
-- `mods.html` shows every mod and keeps the existing game/loader/version/status
-  filters and grid/list toggle — they now filter the Supabase data instead of
-  static cards.
-- `projects.html` shows everything that isn't `released` yet.
-
-To add a new mod later, just insert a new row in the `mods` table — no HTML
-editing required. To mark one as shipped, set `status = 'released'` and fill
-in `download_url`.
-
-### Optional: changelog too
-`changelog.html` still has its old hand-written "empty state." If you'd like
-that pulled from Supabase as well (e.g. a `changelog_entries` table tied to
-each mod), just ask — happy to wire that up the same way.
+### Known limitation
+Because usernames don't have a real email attached, there's no password
+reset flow — if someone forgets their password, they'll need a new
+username. If you want real password recovery later, that requires
+collecting an actual email at signup, which is a bigger change — happy to
+add it if you want it.

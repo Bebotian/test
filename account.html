@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bebotian.net — Projects</title>
+<title>Bebotian.net — Account</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
   <nav class="pages">
     <a href="index.html">Home</a>
     <a href="mods.html">Mods</a>
-    <a href="projects.html" class="active">Projects</a>
+    <a href="projects.html">Projects</a>
     <a href="changelog.html">Changelog</a>
     <a href="about.html">About</a>
   </nav>
@@ -34,27 +34,28 @@
   <div id="authWidget" class="auth-widget"></div>
 </header>
 
-<div class="page-hero">
-  <div class="eyebrow">// what i'm building</div>
-  <h1>Projects</h1>
-  <p>Everything currently in the workshop, whether it's a day old or almost ready to ship. This is the messier, more honest view of what Mods will eventually hold.</p>
-</div>
+<section class="section" style="max-width:420px;padding-top:60px;">
 
-<section class="section" style="padding-top:20px;">
-  <div class="grid" id="projectMods">
-    <p style="color:var(--muted);">Loading projects…</p>
+  <div class="auth-tabs">
+    <button class="auth-tab active" id="tabLogin">Log in</button>
+    <button class="auth-tab" id="tabSignup">Sign up</button>
   </div>
+
+  <div class="info-card" style="margin-top:22px;">
+    <form id="authForm">
+      <label class="auth-label" for="username">Username</label>
+      <input class="auth-input" id="username" type="text" autocomplete="username" required maxlength="20" placeholder="e.g. steve" />
+
+      <label class="auth-label" for="password" style="margin-top:16px;">Password</label>
+      <input class="auth-input" id="password" type="password" autocomplete="current-password" required minlength="6" placeholder="At least 6 characters" />
+
+      <p id="authError" class="auth-error"></p>
+
+      <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%;justify-content:center;margin-top:20px;">Log in</button>
+    </form>
+  </div>
+
 </section>
-
-<script type="module">
-  import { fetchMods, renderMods } from "./js/supabase-mods.js";
-
-  const container = document.getElementById("projectMods");
-  // Show everything that isn't released yet — swap the filter to taste
-  const { data: mods, error } = await fetchMods({ orderBy: "sort_order", ascending: true });
-  const inProgress = mods.filter(m => m.status !== "released");
-  renderMods(container, inProgress, "projects", "Nothing in the workshop right now.", error);
-</script>
 
 <footer>
   <div>© <span id="year"></span> Bebotian. All mods are made for fun, not profit.</div>
@@ -73,6 +74,75 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+<script type="module">
+  import { signIn, signUp, getCurrentUser } from "./js/auth.js";
+
+  // Already logged in? bounce to home.
+  const existing = await getCurrentUser();
+  if (existing) window.location.href = "index.html";
+
+  const tabLogin = document.getElementById("tabLogin");
+  const tabSignup = document.getElementById("tabSignup");
+  const submitBtn = document.getElementById("submitBtn");
+  const form = document.getElementById("authForm");
+  const errorEl = document.getElementById("authError");
+  const usernameEl = document.getElementById("username");
+  const passwordEl = document.getElementById("password");
+
+  let mode = new URLSearchParams(window.location.search).get("mode") === "signup" ? "signup" : "login";
+
+  function updateMode() {
+    errorEl.textContent = "";
+    if (mode === "login") {
+      tabLogin.classList.add("active");
+      tabSignup.classList.remove("active");
+      submitBtn.textContent = "Log in";
+      passwordEl.autocomplete = "current-password";
+    } else {
+      tabSignup.classList.add("active");
+      tabLogin.classList.remove("active");
+      submitBtn.textContent = "Sign up";
+      passwordEl.autocomplete = "new-password";
+    }
+  }
+  updateMode();
+
+  tabLogin.addEventListener("click", () => { mode = "login"; updateMode(); });
+  tabSignup.addEventListener("click", () => { mode = "signup"; updateMode(); });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorEl.textContent = "";
+    submitBtn.disabled = true;
+    submitBtn.textContent = mode === "login" ? "Logging in…" : "Signing up…";
+
+    const username = usernameEl.value.trim();
+    const password = passwordEl.value;
+
+    const { user, error } = mode === "login"
+      ? await signIn(username, password)
+      : await signUp(username, password);
+
+    if (error) {
+      errorEl.textContent = error.message;
+      submitBtn.disabled = false;
+      updateMode();
+      return;
+    }
+
+    if (mode === "signup" && !user) {
+      // Shouldn't normally happen with email confirmation disabled, but just in case
+      errorEl.textContent = "Account created — try logging in now.";
+      mode = "login";
+      updateMode();
+      submitBtn.disabled = false;
+      return;
+    }
+
+    window.location.href = "index.html";
+  });
 </script>
 
 <script type="module" src="js/auth-widget.js"></script>
